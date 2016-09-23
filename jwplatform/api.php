@@ -1,23 +1,23 @@
 <?php
     /*-----------------------------------------------------------------------------
-     * PHP client library for Bits on the Run System API
+     * PHP client library for JW Platform API
      *
      * Author:      Sergey Lashin
      * Copyright:   (c) 2012 LongTail Ad Solutions
      * License:     BSD 3-Clause License
      *              See accompanying LICENSE file
      *
-     * Version:     1.4
-     * Updated:     Wed Feb  8 11:59:56 CET 2012
+     * Version:     1.5
+     * Updated:     2016-09-23
      *
      * For the System API documentation see:
-     *              http://developer.longtailvideo.com/botr/system-api/
+     *              https://developer.jwplayer.com/jw-platform/
      *-----------------------------------------------------------------------------
      */
 
-    class BotrAPI {
-        private $_version = '1.4';
-        private $_url = 'http://api.bitsontherun.com/v1';
+    class JwplatformAPI {
+        private $_version = '1.5';
+        private $_url = 'https://api.jwplatform.com/v1';
         private $_library;
 
         private $_key, $_secret;

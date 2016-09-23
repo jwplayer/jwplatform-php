@@ -8,7 +8,7 @@
  * check here.
  */
 
-require_once('botr/init_api.php');
+require_once('jwplatform/init_api.php');
 
 $params = array();
 if(isset($_GET['resumable'])) {
@@ -16,5 +16,5 @@ if(isset($_GET['resumable'])) {
 }
 
 // Do the API call and send the result back to the client.
-echo json_encode($botr_api->call('/videos/create', $params));
+echo json_encode($jwplatform_api->call('/videos/create', $params));
 ?>

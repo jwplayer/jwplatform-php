@@ -4,7 +4,7 @@
 	<title>Uploading video</title>
 	<link media="all" href="css/style.css" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="botr/upload.js"></script>
+	<script type="text/javascript" src="jwplatform/upload.js"></script>
 </head>
 <body>
 
@@ -30,12 +30,12 @@ $(function() {
   // This can not be done beforehand, because it depends on whether
   // resumable uploads are supported.
   var data = {};
-  if(BotrUpload.resumeSupported()) {
+  if(JwplatformUpload.resumeSupported()) {
     data['resumable'] = 'resumable';
   }
   $.get("create.php", data, function(data) {
-    // Attach a BotrUpload instance to the form.
-    var upload = new BotrUpload(data.link, data.session_id, {
+    // Attach a JwplatformUpload instance to the form.
+    var upload = new JwplatformUpload(data.link, data.session_id, {
       "url": "show.php",
       params: {
         "video_key": data.media.key
@@ -47,7 +47,7 @@ $(function() {
     
     // Create a pause button if resume is available
     var pauseButton;
-    if(BotrUpload.resumeSupported()) {
+    if(JwplatformUpload.resumeSupported()) {
       pauseButton = $('<button disabled>').text('Pause');
       pauseButton.toggle(function() {
         pauseButton.text('Resume');

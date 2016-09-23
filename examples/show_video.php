@@ -1,9 +1,9 @@
 <?php
-require_once('botr/init_api.php');
+require_once('jwplatform/init_api.php');
 
 # Do the API call to retrieve the video status
 $video_key = $_GET['video_key'];
-$response = $botr_api->call('/videos/show', array('video_key'=>$video_key));
+$response = $jwplatform_api->call('/videos/show', array('video_key'=>$video_key));
 if ($response['status'] == 'error') { die(print_r($response)); }
 
 
@@ -21,8 +21,8 @@ if ($response['status'] == 'error') { die(print_r($response)); }
 
 <form>
     <div id="preview">
-        <a href="http://content.bitsontherun.com/previews/<?php echo $video_key?>-ALJ3XQCI"
-            style="background:url(http://content.bitsontherun.com/thumbs/<?php echo $video_key?>-120.jpg)"
+        <a href="http://content.jwplatform.com/previews/<?php echo $video_key?>-ALJ3XQCI"
+            style="background:url(http://content.jwplatform.com/thumbs/<?php echo $video_key?>-120.jpg)"
            target="_blank">preview video</a>
     </div>
     <fieldset>

@@ -1,7 +1,7 @@
 <?php
 # Replace xxxx and yyyy with your API key/secret (can be found in the CMS).
-require_once('botr/api.php');
-$botr_api = new BotrAPI('xxxx','yyyy');
+require_once('jwplatform/api.php');
+$jwplatform_api = new JwplatformAPI('xxxx','yyyy');
 
 
 # Insert the key of the video to update.
@@ -20,13 +20,13 @@ if(isset($_POST['video_key'])) {
 			$array[$key] = $value; 
 		}
 	}
-	$response = $botr_api->call("/videos/update",$array);
+	$response = $jwplatform_api->call("/videos/update",$array);
 	if ($response['status'] == "error") { die(print_r($response)); }
 }
 
 
 # Grab the current properties for this video, so it can be printed in the form.
-$response = $botr_api->call("/videos/show",array('video_key'=>$video_key));
+$response = $jwplatform_api->call("/videos/show",array('video_key'=>$video_key));
 if ($response['status'] == "error") { die(print_r($response)); }
 
 
@@ -115,7 +115,7 @@ if ($response['status'] == "error") { die(print_r($response)); }
 	</fieldset>
 </form>
 
-<p><a href="http://content.bitsontherun.com/previews/<?=$response['video']['key']?>-ALJ3XQCI" target="_blank">Preview this video</a></p>
+<p><a href="http://content.jwplatform.com/previews/<?=$response['video']['key']?>-ALJ3XQCI" target="_blank">Preview this video</a></p>
 
 
 </body>
