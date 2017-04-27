@@ -1,0 +1,16 @@
+{
+    "name": "jwplayer/jwplatform-php",
+    "type": "library",
+    "description": "jwplayer php API Adapter",
+    "version": "1.4",
+    "authors": [
+        {"name": "Sergey Lashin"}
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "jwplayer\\jwplatform-php\\": ""
+        }
+    }
+}
