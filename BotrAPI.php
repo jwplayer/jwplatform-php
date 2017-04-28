@@ -14,6 +14,7 @@
      *              http://developer.longtailvideo.com/botr/system-api/
      *-----------------------------------------------------------------------------
      */
+namespace jwplayer\jwplatform;
 
     class BotrAPI {
         private $_version = '1.4';

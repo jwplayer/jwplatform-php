@@ -1,5 +1,5 @@
 {
-    "name": "jwplayer/jwplatform-php",
+    "name": "jwplayer/jwplatform",
     "type": "library",
     "description": "jwplayer php API Adapter",
     "version": "1.4",
@@ -10,7 +10,7 @@
     },
     "autoload": {
         "psr-4": {
-            "jwplayer\\jwplatform-php\\": ""
+            "jwplayer\\jwplatform\\": ""
         }
     }
 }
