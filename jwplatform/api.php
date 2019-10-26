@@ -2,18 +2,20 @@
     /*-----------------------------------------------------------------------------
      * PHP client library for JW Platform API
      *
-     * Author:      Sergey Lashin
-     * Copyright:   (c) 2012 LongTail Ad Solutions
+     * Author:      Kamil Sindi
+     * Copyright:   (c) 2019 JW Player
      * License:     BSD 3-Clause License
      *              See accompanying LICENSE file
      *
      * Version:     1.5
-     * Updated:     2016-09-23
+     * Updated:     2019-10-26
      *
      * For the System API documentation see:
      *              https://developer.jwplayer.com/jw-platform/
      *-----------------------------------------------------------------------------
      */
+
+namespace jwplayer\jwplatform;
 
     class JwplatformAPI {
         private $_version = '1.5';

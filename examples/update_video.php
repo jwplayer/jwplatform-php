@@ -1,7 +1,6 @@
 <?php
-# Replace xxxx and yyyy with your API key/secret (can be found in the CMS).
 require_once('jwplatform/api.php');
-$jwplatform_api = new JwplatformAPI('xxxx','yyyy');
+$jwplatform_api = new JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
 
 # Insert the key of the video to update.
@@ -16,8 +15,8 @@ if(isset($_POST['video_key'])) {
 		if($key == 'date') {
 			$date = explode('/',$value);
 			$array[$key] = mktime(0,0,0,$date[1],$date[0],$date[2]);
-		} else { 
-			$array[$key] = $value; 
+		} else {
+			$array[$key] = $value;
 		}
 	}
 	$response = $jwplatform_api->call("/videos/update",$array);
@@ -78,7 +77,7 @@ if ($response['status'] == "error") { die(print_r($response)); }
         	clear: left;
         	width: 120px;
         }
-        button, fieldset small { 
+        button, fieldset small {
         	display: block;
         	clear: both;
         	margin-left: 120px;
@@ -88,7 +87,7 @@ if ($response['status'] == "error") { die(print_r($response)); }
         	margin-left: 10px;
         }
     </style>
-	
+
 </head>
 <body>
 
