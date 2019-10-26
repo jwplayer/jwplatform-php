@@ -1,5 +1,4 @@
 <?php
-# Replace xxxx and yyyy with your API key/secret (can be found in the CMS).
 require_once('jwplatform/api.php');
 $jwplatform_api = new JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
