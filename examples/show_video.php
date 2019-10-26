@@ -1,5 +1,9 @@
 <?php
-require_once('jwplatform/init_api.php');
+require_once('jwplatform/api.php');
+
+use jwplayer\jwplatform as jwplatform;
+
+$jwplatform_api = new jwplatform\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
 # Do the API call to retrieve the video status
 $video_key = $_GET['video_key'];
@@ -27,7 +31,6 @@ if ($response['status'] == 'error') { die(print_r($response)); }
     </div>
     <fieldset>
 
-
 <?php
 # Print all the properties
 foreach($response['video'] as $key =>$val) {
@@ -36,7 +39,6 @@ foreach($response['video'] as $key =>$val) {
     }
 }
 ?>
-
 
     </fieldset>
 </form>
