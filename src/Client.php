@@ -1,24 +1,9 @@
 <?php
-    /*-----------------------------------------------------------------------------
-     * PHP client library for JW Platform API
-     *
-     * Author:      Kamil Sindi
-     * Copyright:   (c) 2019 JW Player
-     * License:     BSD 3-Clause License
-     *              See accompanying LICENSE file
-     *
-     * Version:     1.5.0
-     * Updated:     2019-10-26
-     *
-     * For the System API documentation see:
-     *              https://developer.jwplayer.com/jw-platform/
-     *-----------------------------------------------------------------------------
-     */
 
-namespace jwplayer\jwplatform;
+namespace Jwplayer;
 
     class JwplatformAPI {
-        private $_version = '1.5';
+        private $_version = '1.6';
         private $_url = 'https://api.jwplatform.com/v1';
         private $_library;
 

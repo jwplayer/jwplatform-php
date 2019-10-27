@@ -2,7 +2,7 @@
 
 require_once('vendor/autoload.php');
 
-$jwplatform_api = new jwplayer\jwplatform\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
+$jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
 # Do the API call to retrieve the video status
 $video_key = $_GET['video_key'];
