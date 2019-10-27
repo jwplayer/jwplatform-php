@@ -8,6 +8,7 @@
       "video streaming",
       "api"
     ],
+    "minimum-stability": "dev",
     "homepage": "https://developer.jwplayer.com/jw-platform/",
     "version": "1.5.0",
     "license": "MIT",
