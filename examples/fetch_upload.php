@@ -1,10 +1,8 @@
 <?php
 
-require_once('jwplatform/api.php');
+require_once('vendor/autoload.php');
 
-use jwplayer\jwplatform as jwplatform;
-
-$jwplatform_api = new jwplatform\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
+$jwplatform_api = new jwplayer\jwplatform\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
 $params = array();
 $params['title'] = 'Fetch Upload Test';

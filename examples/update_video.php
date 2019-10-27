@@ -1,11 +1,11 @@
 <?php
-require_once('jwplatform/api.php');
-$jwplatform_api = new JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
+require_once('vendor/autoload.php');
+
+$jwplatform_api = new jwplayer\jwplatform\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
 
 # Insert the key of the video to update.
-$video_key = 'uP18Kguw';
-
+$video_key = 'INSERT VIDEO KEY';
 
 # If the form has been submitted, we place all properties in an array and save it.
 # We only push properties that have a value, and we convert the date to a timestamp.
