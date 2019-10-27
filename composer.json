@@ -1,16 +1,29 @@
 {
-    "name": "jwplayer/jwplatform",
+    "name": "jwplayer/jwplatform-php",
     "type": "library",
-    "description": "JW Player PHP API Adapter",
+    "description": "Official JW Player PHP API Adapter",
+    "keywords": [
+      "jwplayer",
+      "jwplatform",
+      "video streaming",
+      "api"
+    ],
+    "homepage": "https://developer.jwplayer.com/jw-platform/",
     "version": "1.5",
+    "license": "MIT",
     "authors": [
-        {"name": "Kamil Sindi"}
+      {
+        "name": "JWPlayer and contributors",
+        "homepage": "https://github.com/jwplayer/jwplatform-php/contributors"
+      }
     ],
     "require": {
+      "php": ">=5.6.0",
+      "ext-curl": "*"
     },
     "autoload": {
         "psr-4": {
-            "jwplayer\\jwplatform\\": ""
+            "jwplayer\\jwplatform\\": "lib/"
         }
     }
 }
