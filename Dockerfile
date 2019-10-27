@@ -4,6 +4,7 @@ FROM php:7.2-cli
 ENV dir /home/app
 
 RUN useradd -ms /bin/bash app
+RUN apt-get install git
 
 RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
@@ -16,6 +17,6 @@ WORKDIR ${dir}
 
 USER app
 
-RUN composer require jw-player/jwplatform-php
+RUN composer require jw-player/jwplatform-php:*
 
 CMD [ "php", "examples/upload_video.php" ]

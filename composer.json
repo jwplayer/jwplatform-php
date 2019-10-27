@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "homepage": "https://developer.jwplayer.com/jw-platform/",
-    "version": "1.5.0",
+    "version": "v1.6.1",
     "license": "MIT",
     "authors": [
       {
