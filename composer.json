@@ -1,5 +1,5 @@
 {
-    "name": "jwplayer/jwplatform-php",
+    "name": "jw-player/jwplatform-php",
     "type": "library",
     "description": "Official JW Player PHP API Adapter",
     "keywords": [
@@ -9,7 +9,7 @@
       "api"
     ],
     "homepage": "https://developer.jwplayer.com/jw-platform/",
-    "version": "1.5",
+    "version": "1.5.0",
     "license": "MIT",
     "authors": [
       {
