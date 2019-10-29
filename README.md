@@ -47,6 +47,16 @@ If you use Composer, these dependencies should be handled automatically. If you 
 
 ## Usage
 
+Example of getting video metadata:
+
+```php
+
+$jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
+
+$video_key = 'INSERT VIDEO KEY';
+$response = $jwplatform_api->call('/videos/show', array('video_key'=>$video_key));
+```
+
 Example of uploading a file:
 
 ```php
