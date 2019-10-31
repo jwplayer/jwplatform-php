@@ -1,5 +1,5 @@
 {
-    "name": "jwplayer/jwplatform-php",
+    "name": "jwplayer/jwplatform",
     "type": "library",
     "description": "Official JW Player PHP API Adapter",
     "keywords": [
