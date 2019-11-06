@@ -17,6 +17,6 @@ WORKDIR ${dir}
 
 USER app
 
-RUN composer require jwplayer/jwplatform:*
+RUN composer require jwplayer/jwplatform
 
 CMD [ "php", "examples/upload_video.php" ]
