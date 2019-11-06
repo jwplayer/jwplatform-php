@@ -3,7 +3,7 @@
 namespace Jwplayer;
 
     class JwplatformAPI {
-        private $_version = '1.6.1';
+        private $_version = '1.6.2';
         private $_url = 'https://api.jwplatform.com/v1';
         private $_library;
 

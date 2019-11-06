@@ -2,6 +2,7 @@
     "name": "jwplayer/jwplatform",
     "type": "library",
     "description": "Official JW Player PHP API Adapter",
+    "version": "v1.6.2",
     "keywords": [
       "jwplayer",
       "jwplatform",
@@ -11,7 +12,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "homepage": "https://developer.jwplayer.com/jw-platform/",
-    "version": "v1.6.1",
     "license": "MIT",
     "authors": [
       {
@@ -23,9 +23,12 @@
       "php": ">=5.6.0",
       "ext-curl": "*"
     },
+    "config": {
+      "optimize-autoloader": true
+    },
     "autoload": {
         "psr-4": {
-            "Jwplayer\\": "src"
+            "Jwplayer\\": "src/"
         }
     }
 }
