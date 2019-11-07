@@ -1,8 +1,8 @@
 {
     "name": "jwplayer/jwplatform",
     "type": "library",
-    "description": "Official JW Player PHP API Adapter",
-    "version": "v1.6.2",
+    "description": "Official JW Player client",
+    "version": "v1.6.3",
     "keywords": [
       "jwplayer",
       "jwplatform",
@@ -22,9 +22,6 @@
     "require": {
       "php": ">=5.6.0",
       "ext-curl": "*"
-    },
-    "config": {
-      "optimize-autoloader": true
     },
     "autoload": {
         "psr-4": {

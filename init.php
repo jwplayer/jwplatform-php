@@ -1,3 +1,3 @@
 <?php
 // API client
-require(dirname(__FILE__) . '/src/Client.php');
+require(dirname(__FILE__) . '/src/JwplatformAPI.php');
