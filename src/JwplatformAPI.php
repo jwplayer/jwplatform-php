@@ -2,16 +2,46 @@
 
 namespace Jwplayer;
 
-    class JwplatformAPI {
+    use Exception;
+
+class JwplatformAPI {
+
+        /** @var string API current version */
         private $_version = '1.6.3';
-        private $_url = 'https://api.jwplatform.com/v1';
+
+        /** @var array API urls */
+        private const urls = [
+            'v1' => 'https://api.jwplatform.com/v1',
+            'v2' => 'https://api.jwplayer.com/v2',
+            'upload' => 'https://cdn.jwplayer.com'
+        ];
+
+        /** @var string HTTP Library used can be either curl or fopen */
         private $_library;
 
-        private $_key, $_secret;
+        /** @var string API base url */
+        private $_url;
 
-        public function __construct($key, $secret) {
+        /** @var string JwPlayer account key */
+        private $_key;
+
+        /** @var string JwPlayer account secret */
+        private $_secret;
+
+        /** @var string JwPlayer reporting API Key */
+        private $_reportingAPIKey = null;
+
+        /**
+         * JwplatformAPI constructor.
+         *
+         * @param string $key
+         * @param string $secret
+         * @param string $reportingAPIKey
+         */
+        public function __construct($key, $secret, $reportingAPIKey = '') {
             $this->_key = $key;
             $this->_secret = $secret;
+            $this->_reportingAPIKey = $reportingAPIKey;
 
             // Determine which HTTP library to use:
             // check for cURL, else fall back to file_get_contents
@@ -22,13 +52,23 @@ namespace Jwplayer;
             }
         }
 
-        public function version() {
+        /**
+         * Returns API version
+         *
+         * @return string
+         */
+        public function getVersion(): string {
             return $this->_version;
         }
 
-        // RFC 3986 complient rawurlencode()
-        // Only required for phpversion() <= 5.2.7RC1
-        // See http://www.php.net/manual/en/function.rawurlencode.php#86506
+        /**
+         * RFC 3986 complient rawurlencode()
+         * Only required for phpversion() <= 5.2.7RC1
+         * See http://www.php.net/manual/en/function.rawurlencode.php#86506
+         *
+         * @param integer|float|string|boolean|array $input
+         * @return array|string|string[]
+         */
         private function _urlencode($input) {
             if (is_array($input)) {
                 return array_map(array('_urlencode'), $input);
@@ -39,8 +79,13 @@ namespace Jwplayer;
             }
         }
 
-        // Sign API call arguments
-        private function _sign($args) {
+        /**
+         * Sign API call arguments
+         *
+         * @param array $args
+         * @return string
+         */
+        private function _sign($args): string {
             ksort($args);
             $sbs = "";
             foreach ($args as $key => $value) {
@@ -57,8 +102,13 @@ namespace Jwplayer;
             return $signature;
         }
 
-        // Add required api_* arguments
-        private function _args($args) {
+        /**
+         * Add required api_* arguments
+         *
+         * @param array $args
+         * @return array
+         */
+        private function _args($args): array {
             $args['api_nonce'] = str_pad(mt_rand(0, 99999999), 8, STR_PAD_LEFT);
             $args['api_timestamp'] = time();
 
@@ -79,20 +129,76 @@ namespace Jwplayer;
             return $args;
         }
 
-        // Construct call URL
-        public function call_url($call, $args=array()) {
+        /**
+         * Construct call URL
+         *
+         * @param strin $call
+         * @param array $args
+         * @return string
+         */
+        public function call_url($call, $args = []): string {
             $url = $this->_url . $call . '?' . http_build_query($this->_args($args), "", "&");
             return $url;
         }
 
-        // Make an API call
-        public function call($call, $args=array()) {
-            $url = $this->call_url($call, $args);
+        /**
+         * Construct call URL v2
+         *
+         * @param string $call
+         * @return array
+         * @throws Exception
+         */
+        public function call_urlv2($call): array {
+            if ($this->_reportingAPIKey) {
+                $url['headers'] = [
+                    'Authorization: ' . $this->_reportingAPIKey,
+                    'Content-Type: application/json'
+                ];
+            } else {
+                throw new Exception('Missing param token (reportingAPIKey)');
+            }
+
+            $url['url'] = $this->_url . $call;
+            return $url;
+        }
+
+        /**
+         * Make an API call
+         *
+         * @param string $call relative path to data  such as /sites/xxxxXXxx/analytics/queries/
+         * @param array $args
+         * @param string $apiVersion
+         * @return bool|false|mixed|string
+         */
+        public function call($call, $args = [], $apiVersion = 'v1') {
+            $this->_url = self::urls[$apiVersion];
+            $url = '';
+
+            switch ($apiVersion) {
+                case 'v1':
+                    $url = $this->call_url($call, $args);
+                    break;
+                case 'v2':
+                    try {
+                        $requestParams = $this->call_urlv2($call);
+                        $url = $requestParams['url'];
+                    } catch (Exception $e) {
+                        echo 'An error occured during curl headers initialization : ' .$e->getMessage();
+                    }
+                    break;
+                case 'upload':
+                    break;
+            }
 
             $response = null;
             switch($this->_library) {
                 case 'curl':
                     $curl = curl_init();
+                    if ($apiVersion === 'v2') {
+                        curl_setopt($curl, CURLOPT_HTTPHEADER, $requestParams['headers']);
+                        curl_setopt($curl, CURLOPT_POST, true);
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($args));
+                    }
                     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($curl, CURLOPT_URL, $url);
                     $response = curl_exec($curl);
@@ -107,8 +213,15 @@ namespace Jwplayer;
             return $unserialized_response ? $unserialized_response : $response;
         }
 
-        // Upload a file
-        public function upload($upload_link=array(), $file_path, $api_format="php") {
+        /**
+         * Upload a file
+         *
+         * @param string $file_path
+         * @param array $upload_link
+         * @param string $api_format
+         * @return mixed|string
+         */
+        public function upload($file_path, $upload_link = [], $api_format = "php") {
             $url = $upload_link['protocol'] . '://' . $upload_link['address'] . $upload_link['path'] .
                 "?key=" . $upload_link['query']['key'] . '&token=' . $upload_link['query']['token'] .
                 "&api_format=" . $api_format;
@@ -121,8 +234,17 @@ namespace Jwplayer;
             if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 50500) {
               $post_data = array("file"=>"@" . $file_path);
             } else {
-              $post_data = array("file"=>new \CURLFile($file_path));
+                if (!filter_var($file_path, FILTER_SANITIZE_URL)) {
+                    $post_data = array("file" => new \CURLFile($file_path));
+                } else {
+                    $temp = tmpfile();
+                    fwrite($temp, file_get_contents($file_path));
+                    fseek($temp, 0);
+                    $localFilePath = stream_get_meta_data($temp)['uri'];
+                    $post_data = array("file" => new \CURLFile($localFilePath));
+                }
             }
+
             $response = null;
             switch($this->_library) {
                 case 'curl':
@@ -132,7 +254,6 @@ namespace Jwplayer;
                     curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
                     $response = curl_exec($curl);
                     $err_no = curl_errno($curl);
-                    $err_msg = curl_error($curl);
                     curl_close($curl);
                     break;
                 default:
@@ -142,7 +263,7 @@ namespace Jwplayer;
             if ($err_no == 0) {
                 return unserialize($response);
             } else {
-                return "Error #" . $err_no . ": " . $err_msg;
+                return "Error #" . $err_no . ": " . curl_error($curl);
             }
         }
     }
