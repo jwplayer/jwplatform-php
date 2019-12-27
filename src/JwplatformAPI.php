@@ -7,7 +7,7 @@ namespace Jwplayer;
 class JwplatformAPI {
 
         /** @var string API current version */
-        private $_version = '1.6.3';
+        private $_version = '1.7.0';
 
         /** @var array API urls */
         private const urls = [
