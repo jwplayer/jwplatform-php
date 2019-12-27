@@ -47,7 +47,9 @@ If you use Composer, these dependencies should be handled automatically. If you 
 
 ## Usage
 
-Example of getting video metadata:
+Please refer to our [documentation](https://developer.jwplayer.com/) for all API functionality.
+
+### EaGet video metadata
 
 ```php
 $jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
@@ -56,7 +58,7 @@ $video_key = 'INSERT VIDEO KEY';
 $response = $jwplatform_api->call('/videos/show', array('video_key'=>$video_key));
 ```
 
-Example of uploading a file:
+### Upload file
 
 ```php
 $jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
@@ -71,10 +73,39 @@ $create_response = json_encode($jwplatform_api->call('/videos/create', $params))
 $decoded = json_decode(trim($create_response), TRUE);
 $upload_link = $decoded['link'];
 
-$upload_response = $jwplatform_api->upload($upload_link, $target_file);
+$upload_response = $jwplatform_api->upload($target_file, $upload_link);
 
 print_r($upload_response);
 ```
+
+### Get analytics report
+
+```php
+$jwplatform_api = new Jwplayer\JwplatformAPI('API KEY', 'API SECRET', 'REPORTING API KEY');
+
+// set these environment variables
+$jwplatform_api_key = $_ENV['JWPLATFORM_API_KEY'];
+$jwplatform_api_secret = $_ENV['JWPLATFORM_API_SECRET'];
+$reporting_api_key = $_ENV['JWPLATFORM_REPORTING_API_KEY'];
+
+$jwplatform_api = new Jwplayer\JwplatformAPI($jwplatform_api_key, $jwplatform_api_secret, $reporting_api_key);
+
+// params to get to query by embeds by device for a certain date range
+$params = array();
+$params['start_date'] = '2019-12-01';
+$params['end_date'] = '2019-12-31';
+$params['dimensions'] = array('device_id');
+$params['include_metadata'] = 1;
+$params['metrics'] = array(array('operation' => 'sum', 'field' => 'embeds'));
+$params['sort'] = array(array('field' => 'embeds', 'order' => 'DESCENDING'));
+
+// Query analytics
+$response = json_encode($jwplatform_api->call('/sites/'.$jwplatform_api_key.'/analytics/queries', $params, 'v2'));
+
+print_r(json_decode($response));
+```
+
+For more example queries, please refer to our [documentation](https://developer.jwplayer.com/jwplayer/docs/analytics-example-report-queries).
 
 ## Development
 
