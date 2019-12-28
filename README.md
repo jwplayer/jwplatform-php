@@ -49,7 +49,7 @@ If you use Composer, these dependencies should be handled automatically. If you 
 
 Please refer to our [documentation](https://developer.jwplayer.com/) for all API functionality.
 
-### EaGet video metadata
+### Get video metadata
 
 ```php
 $jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
