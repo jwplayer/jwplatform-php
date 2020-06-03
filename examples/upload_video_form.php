@@ -19,7 +19,7 @@ $create_response = json_encode($jwplatform_api->call('/videos/create', $params))
 $decoded = json_decode(trim($create_response), TRUE);
 $upload_link = $decoded['link'];
 
-$url = $upload_link['protocol'] . '://' . $upload_link['address'] . $upload_link['path'] .
+$url = 'https://' . $upload_link['address'] . $upload_link['path'] .
 "?key=" . $upload_link['query']['key'] . '&token=' . $upload_link['query']['token'] .
 "&api_format=xml";
 
