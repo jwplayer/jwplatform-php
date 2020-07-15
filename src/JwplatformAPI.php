@@ -238,7 +238,19 @@ class JwplatformAPI {
                     $post_data = array("file" => new \CURLFile($file_path));
                 } else {
                     $temp = tmpfile();
-                    fwrite($temp, file_get_contents($file_path));
+                    // open original file
+                    $file_in = fopen($file_path, "rb");
+                    //If we failed to get a file handle, throw an Exception.
+                    if ($file_in === false) throw new Exception('Could not get file handle for: ' . $fileName);
+                    // read until EOF
+                    while (!feof($file_in)) {
+                        // read bytes
+                        $bytes = fread($file_in, 8192);
+                        // write to temp file
+                        fwrite($temp, $bytes);
+                    }
+                    // close original file handler
+                    fclose($file_in);
                     fseek($temp, 0);
                     $localFilePath = stream_get_meta_data($temp)['uri'];
                     $post_data = array("file" => new \CURLFile($localFilePath));
