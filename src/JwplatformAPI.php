@@ -1,6 +1,6 @@
 <?php
 
-namespace Jwplayer;
+namespace Jwplayer\v1;
 
     use Exception;
 
