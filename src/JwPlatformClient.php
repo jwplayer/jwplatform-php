@@ -2,7 +2,7 @@
 
 namespace Jwplayer;
 
-class JwPlatformClient {
+class JwplatformClient {
 
     /** @var string API client version */
     private $_version = '2.0.0';
@@ -14,7 +14,7 @@ class JwPlatformClient {
     private $_secret;
 
     /**
-     * JwplatformAPI constructor.
+     * JwplatformClient constructor.
      *
      * @param string $secret
      * @param string $host
