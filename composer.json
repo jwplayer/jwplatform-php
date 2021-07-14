@@ -2,7 +2,7 @@
     "name": "jwplayer/jwplatform",
     "type": "library",
     "description": "Official JW Player client",
-    "version": "v1.7.0",
+    "version": "v2.0.0",
     "keywords": [
       "jwplayer",
       "jwplatform",
@@ -11,7 +11,7 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "homepage": "https://developer.jwplayer.com/jw-platform/",
+    "homepage": "https://github.com/jwplayer/jwplatform-php",
     "license": "MIT",
     "authors": [
       {
@@ -25,7 +25,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Jwplayer\\": "src/"
+            "Jwplayer\\": "src/",
+            "Jwplayer\\v1\\": "src/"
         }
     }
 }
