@@ -2,6 +2,8 @@
 
 namespace Jwplayer;
 
+    use Exception;
+
 class JwplatformClient {
 
     /** @var string API client version */
@@ -249,6 +251,46 @@ class _MediaClient extends _SiteResourceClient {
             [],
             $query_params
         );
+    }
+
+    /**
+     * Upload a media file
+     *
+     * @param string $file_path Local path to the file to be uploaded
+     * @param string $upload_url Destination URL from the media create response
+     * @return string
+     * @throws Exception
+     */
+    public function upload($file_path, $upload_url) {
+        $post_data = file_get_contents($file_path);
+        $expected_hash = @md5_file($file_path);
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $upload_url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type:',
+        ));
+        $response = curl_exec($curl);
+        $curl_info = curl_getinfo($curl);
+        curl_close($curl);
+
+        $header_size = $curl_info['header_size'];
+        $header = substr($response, 0, $header_size);
+        preg_match("/ETag: \"(.*?)\"\r\n/", $header, $matches);
+        if ($matches) {
+            $returned_hash = $matches[1];
+            if ($returned_hash !== $expected_hash) {
+                throw new Exception("The local file does not match the file received by the server");
+            }
+        }
+
+        $body = substr($response, $header_size);
+        return $body === "" ? undefined : body;
     }
 }
 
