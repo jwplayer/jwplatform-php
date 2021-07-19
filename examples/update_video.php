@@ -1,33 +1,32 @@
 <?php
 
+// require_once('./init.php');
 require_once('vendor/autoload.php');
 
-$jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
-
-# Insert the key of the video to update.
-$video_key = 'INSERT VIDEO KEY';
+$jwplatform_api = new Jwplayer\JwplatformClient('INSERT API SECRET');
+$media_id = 'INSERT MEDIA ID';
+$site_id = 'INSERT SITE ID';
 
 # If the form has been submitted, we place all properties in an array and save it.
-# We only push properties that have a value, and we convert the date to a timestamp.
-if(isset($_POST['video_key'])) {
-	$array = array();
-	foreach ($_POST as $key => $value) {
-		if($key == 'date') {
-			$date = explode('/',$value);
-			$array[$key] = mktime(0,0,0,$date[1],$date[0],$date[2]);
-		} else {
-			$array[$key] = $value;
-		}
+if(isset($_POST['media_id'])) {
+    $params = array();
+    $params['metadata'] = array();
+    foreach ($_POST as $key => $value) {
+        $params['metadata'][$key] = $value;
 	}
-	$response = $jwplatform_api->call("/videos/update",$array);
-	if ($response['status'] == "error") { die(print_r($response)); }
+    $response = json_encode($jwplatform_api->Media->update($site_id, $media_id, $params));
+    $media = json_decode(json_decode(trim($response), true), true);
+    if (array_key_exists('errors', $media)) {
+        die(print_r($media));
+    }
 }
 
-
 # Grab the current properties for this video, so it can be printed in the form.
-$response = $jwplatform_api->call("/videos/show",array('video_key'=>$video_key));
-if ($response['status'] == "error") { die(print_r($response)); }
-
+$response = json_encode($jwplatform_api->Media->get($site_id, $media_id));
+$media = json_decode(json_decode(trim($response), true), true);
+if (array_key_exists('errors', $media)) {
+    die(print_r($media));
+}
 
 # Now print the form.
 ?>
@@ -94,27 +93,18 @@ if ($response['status'] == "error") { die(print_r($response)); }
 
 <form method="post" action="./">
 	<fieldset>
-		<input type="hidden" name="video_key" value="<?=$response['video']['key']?>" />
+		<input type="hidden" name="video_key" value="<?=$media['id']?>" />
 		<label>Title</label>
-		<input type="text" name="title" value="<?=$response['video']['title']?>" />
-		<label>Tags</label>
-		<input type="text" name="tags" value="<?=$response['video']['tags']?>" />
-		<small>Separate multiple tags with a comma.</small>
+		<input type="text" name="title" value="<?=$media['metadata']['title']?>" />
 		<label>Description</label>
-		<textarea name="description"><?=$response['video']['description']?></textarea>
-		<label>Date</label>
-		<input type="text" name="date" id="dateField" value="<?=date('d/m/Y',$response['video']['date'])?>" />
-		<small>The date must be in DD/MM/YYYY format.</small>
-		<label>Link</label>
-		<input type="text" name="link" value="<?=$response['video']['link']?>" />
-		<small>The link is usually a webpage with more info about this video.</small>
+		<textarea name="description"><?=$media['metadata']['description']?></textarea>
 	</fieldset>
 	<fieldset>
 		<button type="submit">save changes</button>
 	</fieldset>
 </form>
 
-<p><a href="http://content.jwplatform.com/previews/<?=$response['video']['key']?>-ALJ3XQCI" target="_blank">Preview this video</a></p>
+<p><a href="http://content.jwplatform.com/previews/<?=$media['id']?>-ALJ3XQCI" target="_blank">Preview this video</a></p>
 
 
 </body>

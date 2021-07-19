@@ -4,26 +4,32 @@
 require_once('vendor/autoload.php');
 
 // set these environment variables
-$jwplatform_api_key = $_ENV['JWPLATFORM_API_KEY'];
-$jwplatform_api_secret = $_ENV['JWPLATFORM_API_SECRET'];
+$secret = $_ENV['JWPLATFORM_API_SECRET'];
+$site_id = $_ENV['JWPLATFORM_SITE_ID'];
 
-$jwplatform_api = new Jwplayer\JwplatformAPI($jwplatform_api_key, $jwplatform_api_secret);
+$jwplatform_api = new Jwplayer\JwplatformClient($secret);
 
 $target_file = 'examples/test.mp4';
 $params = array();
-$params['title'] = 'PHP API Test Upload';
-$params['description'] = 'Video description here';
+$params['metadata'] = array();
+$params['metadata']['title'] = 'PHP API Test Upload';
+$params['metadata']['description'] = 'Video description here';
+$params['upload'] = array();
+$params['upload']['method'] = 'direct';
 
-// Create the example video
-$create_response = json_encode($jwplatform_api->call('/videos/create', $params));
+// Create the example media
+$create_response = json_encode($jwplatform_api->Media->create($site_id, $params));
 
 print_r($create_response);
+print("\n");
 
-$decoded = json_decode(trim($create_response), TRUE);
-$upload_link = $decoded['link'];
+$decoded = json_decode(json_decode(trim($create_response), true), true);
+$upload_link = $decoded['upload_link'];
 
-$upload_response = $jwplatform_api->upload($target_file, $upload_link);
+// Upload the media file
+$upload_response = $jwplatform_api->Media->upload($target_file, $upload_link);
 
 print_r($upload_response);
+print("\n");
 
 ?>

@@ -1,13 +1,18 @@
 <?php
 
+// require_once('./init.php');
 require_once('vendor/autoload.php');
 
-$jwplatform_api = new Jwplayer\JwplatformAPI('INSERT API KEY', 'INSERT API SECRET');
+$jwplatform_api = new Jwplayer\JwplatformClient('INSERT API SECRET');
+$media_id = 'INSERT MEDIA ID';
+$site_id = 'INSERT SITE ID';
 
 # Do the API call to retrieve the video status
-$video_key = $_GET['video_key'];
-$response = $jwplatform_api->call('/videos/show', array('video_key'=>$video_key));
-if ($response['status'] == 'error') { die(print_r($response)); }
+$response = json_encode($jwplatform_api->Media->get($site_id, $media_id));
+$media = json_decode(json_decode(trim($response), true), true);
+if (array_key_exists('errors', $media)) {
+    die(print_r($media));
+}
 
 
 # Print the page. We use a refresh of 10 seconds to see if the video is ready.
@@ -15,33 +20,28 @@ if ($response['status'] == 'error') { die(print_r($response)); }
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Video uploaded</title>
-    <link media="all" href="css/style.css" type="text/css" rel="stylesheet">
-    <meta http-equiv="refresh" content="10">
+    <title>Video Example</title>
 </head>
 <body>
 
 
 <form>
     <div id="preview">
-        <a href="http://content.jwplatform.com/previews/<?php echo $video_key?>-ALJ3XQCI"
-            style="background:url(http://content.jwplatform.com/thumbs/<?php echo $video_key?>-120.jpg)"
+        <a href="http://content.jwplatform.com/previews/<?=$media_id?>-ALJ3XQCI"
+            style="background:url(http://content.jwplatform.com/thumbs/<?=$media_id?>-120.jpg)"
            target="_blank">preview video</a>
     </div>
     <fieldset>
 
 <?php
 # Print all the properties
-foreach($response['video'] as $key =>$val) {
-    if($val) {
-        echo "<label>".$key."</label><p><strong>".$val."</strong></p>\n";
-    }
+foreach($media['metadata'] as $field => $value) {
+    echo "<label>".$field."</label><p><strong>".$value."</strong></p>\n";
 }
 ?>
 
     </fieldset>
 </form>
-<p><a href="./">Upload another video</a></p>
 
 </body>
 </html>
