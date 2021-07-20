@@ -74,7 +74,7 @@ class JwplatformClient {
      * @return mixed
      */
     public function request($method, $path, $body = null, $headers = [], $query_params = null) {
-        $headers[] = "User-Agent: ";
+        $headers[] = "User-Agent: jwplatform_client-php/" . $this->_version;
         $headers[] = "Authorization: Bearer " . $this->_secret;
         $headers[] = "Content-Type: application/json";
 
