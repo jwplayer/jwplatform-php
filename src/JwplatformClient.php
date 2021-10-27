@@ -28,11 +28,17 @@ class JwplatformClient {
         }
 
         $this->analytics = new _AnalyticsClient($this);
+        $this->advertising = new _AdvertisingClient($this);
+
         $this->Import = new _ImportClient($this);
         $this->Channel = new _ChannelClient($this);
         $this->Media = new _MediaClient($this);
         $this->WebhookClient = new _WebhookClient($this);
-        $this->advertising = new _AdvertisingClient($this);
+        $this->MediaProtectionRule = new _MediaProtectionRuleClient($this);
+        $this->Player = new _PlayerClient($this);
+        $this->Playlist = new _PlaylistClient($this);
+        $this->Site = new _SiteClient($this);
+        $this->Thumbnail = new _ThumbnailClient($this);
     }
 
     /**
@@ -86,6 +92,16 @@ class JwplatformClient {
         }
 
         return $this->raw_request($method, $path, $body, $headers);
+    }
+
+    public function query_usage($body = null, $query_params = null) {
+        return $this->request(
+            "PUT",
+            "/v2/query_usage/",
+            $body,
+            [],
+            $query_params
+        );
     }
 }
 
@@ -155,7 +171,7 @@ class _ResourceClient extends _ScopedClient {
         return $this->_client->request(
             "DELETE",
             $this->_path_format($this->_singular_path, $site_id, $this->_resource_name, $resource_id),
-            $body,
+            null,
             [],
             $query_params
         );
@@ -192,7 +208,7 @@ class _ChannelClient extends _SiteResourceClient {
 
     public function __construct($client) {
         parent::__construct($client);
-        $this->_Event = new _ChannelEventClient($client);
+        $this->Event = new _ChannelEventClient($client);
     }
 }
 
@@ -239,9 +255,185 @@ class _ChannelEventClient extends _ScopedClient {
     }
 }
 
+class _MediaRenditionClient extends _ScopedClient {
+
+    public function list($site_id, $media_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/media_renditions/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function create($site_id, $media_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "POST",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/media_renditions/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function get($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/media_renditions/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function delete($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "DELETE",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/media_renditions/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+}
+
+class _OriginalClient extends _ScopedClient {
+
+    public function list($site_id, $media_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/originals/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function create($site_id, $media_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "POST",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/originals/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function get($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/originals/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function update($site_id, $media_id, $resource_id, $body, $query_params = null) {
+        return $this->_client->request(
+            "PATCH",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/originals/" . $resource_id . "/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function delete($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "DELETE",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/originals/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+}
+
+class _TextTrackClient extends _ScopedClient {
+
+    public function list($site_id, $media_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/text_tracks/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function create($site_id, $media_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "POST",
+            "/v2/sites/" . $site_id . "/media/" . $media_id . "/text_tracks/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function get($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/text_tracks/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function update($site_id, $media_id, $resource_id, $body, $query_params = null) {
+        return $this->_client->request(
+            "PATCH",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/text_tracks/" . $resource_id . "/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function delete($site_id, $media_id, $resource_id, $query_params = null) {
+        return $this->_client->request(
+            "DELETE",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/text_tracks/" . $resource_id . "/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function publish($site_id, $media_id, $resource_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/text_tracks/" . $resource_id . "/publish/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function unpublish($site_id, $media_id, $resource_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            "/v2/sites/" . $site_id . "/media/" . $media_id. "/text_tracks/" . $resource_id . "/unpublish/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+}
+
 class _MediaClient extends _SiteResourceClient {
 
     protected $_resource_name = "media";
+
+    public function __construct($client) {
+        parent::__construct($client);
+        $this->MediaRendition = new _MediaRenditionClient($client);
+        $this->Original = new _OriginalClient($client);
+        $this->TextTrack = new _TextTrackClient($client);
+    }
 
     public function reupload($site_id, $resource_id, $body, $query_params = null) {
         return $this->_client->request(
@@ -306,11 +498,27 @@ class _VpbConfigClient extends _ResourceClient {
     protected $_singular_path = "/v2/sites/{site_id}/advertising/{resource_name}/{resource_id}/";
 }
 
+class _PlayerBiddingConfigClient extends _ResourceClient {
+
+    protected $_resource_name = "player_bidding_configs";
+    protected $_collection_path = "/v2/sites/{site_id}/advertising/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/advertising/{resource_name}/{resource_id}/";
+}
+
+class _ScheduleClient extends _ResourceClient {
+
+    protected $_resource_name = "schedules";
+    protected $_collection_path = "/v2/sites/{site_id}/advertising/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/advertising/{resource_name}/{resource_id}/";
+}
+
 class _AdvertisingClient extends _ScopedClient {
 
     public function __construct($client) {
         parent::__construct($client);
-        $this->_VpbConfig = new _VpbConfigClient($client);
+        $this->VpbConfig = new _VpbConfigClient($client);
+        $this->PlayerBiddingConfig = new _PlayerBiddingConfigClient($client);
+        $this->Schedule = new _ScheduleClient($client);
     }
 
     public function update_schedules_vpb_config($site_id, $body, $query_params = null) {
@@ -322,6 +530,149 @@ class _AdvertisingClient extends _ScopedClient {
             $query_params
         );
     }
+
+    public function update_schedules_player_bidding_configs($site_id, $body, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            $this->_path_format("/v2/sites/{site_id}/advertising/update_schedules_player_bidding_configs/", $site_id),
+            $body,
+            [],
+            $query_params
+        );
+    }
+}
+
+class _MediaProtectionRuleClient extends _ResourceClient {
+
+    protected $_resource_name = "media_protection_rules";
+}
+
+class _PlayerClient extends _ResourceClient {
+
+    protected $_resource_name = "players";
+}
+
+class _ManualPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "manual_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _DynamicPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "dynamic_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _TrendingPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "trending_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _ArticleMatchingPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "article_matching_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _SearchPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "search_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _RecommendationsPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "recommendations_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
+class _PlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "playlists";
+
+    public function __construct($client) {
+        parent::__construct($client);
+        $this->ManualPlaylist = new _ManualPlaylistClient($client);
+        $this->DynamicPlaylist = new _DynamicPlaylistClient($client);
+        $this->TrendingPlaylist = new _TrendingPlaylistClient($client);
+        $this->ArticleMatchingPlaylist = new _ArticleMatchingPlaylistClient($client);
+        $this->SearchPlaylist = new _SearchPlaylistClient($client);
+        $this->RecommendationsPlaylist = new _RecommendationsPlaylistClient($client);
+    }
+}
+
+class _SiteProtectionRuleClient extends _ScopedClient {
+
+    public function get($site_id, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/site_protection_rule/",
+            null,
+            [],
+            $query_params
+        );
+    }
+
+    public function update($site_id, $body, $query_params = null) {
+        return $this->_client->request(
+            "PATCH",
+            "/v2/sites/" . $site_id . "/site_protection_rule/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+}
+
+class _SiteClient extends _ScopedClient {
+
+    public function __construct($client) {
+        parent::__construct($client);
+        $this->SiteProtectionRule = new _SiteProtectionRuleClient($client);
+    }
+
+    public function remove_tag($site_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            "/v2/sites/" . $site_id . "/remove_tag/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function rename_tag($site_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            "/v2/sites/" . $site_id . "/rename_tag/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function query_usage($site_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "PUT",
+            "/v2/sites/" . $site_id . "/query_usage/",
+            $body,
+            [],
+            $query_params
+        );
+    }
+}
+
+class _ThumbnailClient extends _ResourceClient {
+
+    protected $_resource_name = "thumbnails";
 }
 
 ?>
