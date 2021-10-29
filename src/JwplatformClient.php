@@ -594,6 +594,13 @@ class _RecommendationsPlaylistClient extends _ResourceClient {
     protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
 }
 
+class _WatchlistPlaylistClient extends _ResourceClient {
+
+    protected $_resource_name = "watchlist_playlist";
+    protected $_collection_path = "/v2/sites/{site_id}/playlists/{resource_name}/";
+    protected $_singular_path = "/v2/sites/{site_id}/playlists/{resource_id}/{resource_name}/";
+}
+
 class _PlaylistClient extends _ResourceClient {
 
     protected $_resource_name = "playlists";
@@ -606,6 +613,7 @@ class _PlaylistClient extends _ResourceClient {
         $this->ArticleMatchingPlaylist = new _ArticleMatchingPlaylistClient($client);
         $this->SearchPlaylist = new _SearchPlaylistClient($client);
         $this->RecommendationsPlaylist = new _RecommendationsPlaylistClient($client);
+        $this->WatchlistPlaylist = new _WatchlistPlaylistClient($client);
     }
 }
 
