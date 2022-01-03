@@ -1,13 +1,13 @@
 <?php
 
-namespace Jwplayer;
+namespace Jwplayer\v1;
 
     use Exception;
 
 class JwplatformAPI {
 
         /** @var string API current version */
-        private $_version = '1.7.0';
+        private $_version = '2.0.0';
 
         /** @var array API urls */
         private const urls = [
