@@ -550,6 +550,7 @@ class _MediaProtectionRuleClient extends _ResourceClient {
 class _PlayerClient extends _ResourceClient {
 
     protected $_resource_name = "players";
+    protected $_collection_path = "/v2/sites/{site_id}/{resource_name}/";
 }
 
 class _ManualPlaylistClient extends _ResourceClient {
