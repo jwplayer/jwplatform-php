@@ -673,6 +673,16 @@ class _SiteClient extends _ScopedClient {
 class _ThumbnailClient extends _ResourceClient {
 
     protected $_resource_name = "thumbnails";
+
+    public function create($site_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "POST",
+            "/v2/sites/" . $site_id . "/" . $this->_resource_name,
+            $body,
+            [],
+            $query_params
+        );
+    }
 }
 
 ?>
