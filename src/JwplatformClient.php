@@ -684,7 +684,7 @@ class _ThumbnailClient extends _ResourceClient {
         );
     }
 
-    public function get_details($site_id, $resource_id, $body = null, $query_params = null) {
+    public function get($site_id, $resource_id, $body = null, $query_params = null) {
         return $this->_client->request(
             "GET",
             "/v2/sites/" . $site_id . "/" . $this->_resource_name . "/" . $resource_id,
