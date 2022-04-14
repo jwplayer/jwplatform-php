@@ -7,7 +7,7 @@ namespace Jwplayer;
 class JwplatformClient {
 
     /** @var string API client version */
-    private $_version = '2.0.0';
+    private $_version = '2.1.0';
 
     /** @var string API hostname */
     private $_host = "api.jwplayer.com";
@@ -673,6 +673,37 @@ class _SiteClient extends _ScopedClient {
 class _ThumbnailClient extends _ResourceClient {
 
     protected $_resource_name = "thumbnails";
+
+    public function create($site_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "POST",
+            "/v2/sites/" . $site_id . "/" . $this->_resource_name,
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function get($site_id, $resource_id, $body = null, $query_params = null) {
+        return $this->_client->request(
+            "GET",
+            "/v2/sites/" . $site_id . "/" . $this->_resource_name . "/" . $resource_id,
+            $body,
+            [],
+            $query_params
+        );
+    }
+
+    public function update($site_id, $resource_id, $body, $query_params = null) {
+        return $this->_client->request(
+            "PATCH",
+            "/v2/sites/" . $site_id . "/" . $this->_resource_name . "/" . $resource_id,
+            $body,
+            [],
+            $query_params
+        );
+    }
+
 }
 
 ?>

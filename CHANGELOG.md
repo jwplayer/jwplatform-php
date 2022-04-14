@@ -1,5 +1,10 @@
 # Changelog
 
+2.1.0 (dannyjgibson)
+------------------
+
+* Add create, get details, and update methods to Thumbnail Resource.
+
 2.0.0 (polishmatt)
 ------------------
 
