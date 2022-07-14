@@ -482,7 +482,7 @@ class _MediaClient extends _SiteResourceClient {
         }
 
         $body = substr($response, $header_size);
-        return $body === "" ? null : body;
+        return $body === "" ? null : $body;
     }
 }
 
