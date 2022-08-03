@@ -7,7 +7,7 @@ namespace Jwplayer;
 class JwplatformClient {
 
     /** @var string API client version */
-    private $_version = '2.1.0';
+    private $_version = '2.1.1';
 
     /** @var string API hostname */
     private $_host = "api.jwplayer.com";

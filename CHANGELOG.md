@@ -1,7 +1,14 @@
 # Changelog
 
+2.1.1 (MariusMatu, dkirchhof)
+-----------------------------
+
+* Fixed a bug with response of upload method.
+* Fixed player API requests.
+* Fixed an issue with query params.
+
 2.1.0 (dannyjgibson)
-------------------
+--------------------
 
 * Add create, get details, and update methods to Thumbnail Resource.
 
