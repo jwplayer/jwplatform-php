@@ -88,7 +88,7 @@ class JwplatformClient {
             $body = json_encode($body);
         }
         if ($query_params !== null) {
-            $path += "?" . http_build_query($query_params);
+            $path .= "?" . http_build_query($query_params);
         }
 
         return $this->raw_request($method, $path, $body, $headers);
